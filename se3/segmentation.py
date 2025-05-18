@@ -297,8 +297,8 @@ def dataset_segmentation(dataset, s_bert_model, word_tok, sent_tok, scorer, min_
     dataframe_chunked = pd.DataFrame(data=list(zip(dataset_chunks, dataset_targets)), columns=["text", "summary"])
     dataframe_idx = pd.DataFrame(dataset_idx, columns=["idx"])
     if not no_save:
-        dataframe_chunked.to_csv(dataset_path)
-        dataframe_idx.to_csv(idx_path)
+        dataframe_chunked.to_csv(dataset_path, escapechar="\\")
+        dataframe_idx.to_csv(idx_path, escapechar="\\")
         if os.path.isfile(dataset_path) and os.path.isfile(idx_path):
             print("The dataframes have been saved successfully.")
     return dataframe_chunked, dataframe_idx
@@ -403,8 +403,8 @@ if __name__ == "__main__":
             else:
                 train_dataset = load_dataset(args.dataset, split="train").to_pandas()
                 test_dataset = load_dataset(args.dataset, split="test").to_pandas()
-            train_dataset.to_csv(train_file_path)
-            test_dataset.to_csv(test_file_path)
+            train_dataset.to_csv(train_file_path, escapechar="\\")
+            test_dataset.to_csv(test_file_path, escapechar="\\")
         else:
             train_dataset = pd.read_csv(train_file_path)
             test_dataset = pd.read_csv(test_file_path)

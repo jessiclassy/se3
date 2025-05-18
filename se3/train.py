@@ -329,7 +329,7 @@ if __name__ == "__main__":
                 alignment_scores.append(get_rouge1_precision(scorer_rouge, chunk, target))
         print(f"\nROUGE-1 precision: {round(np.mean(alignment_scores) * 100, 2)}")
 
-        exit()
+        # exit()
 
         # For toy experiments.
         if args.toy > 0:
@@ -359,6 +359,7 @@ if __name__ == "__main__":
             )
             predictions = concatenate_summaries(result["predicted_summary"], test_dataset_chunked_idx["idx"])
             predictions = [x.strip() for x in predictions]
+        pd.DataFrame(data=predictions, columns=["prediction"]).to_csv(predictions_path)
 
     elif not os.path.isfile(predictions_path) or args.test:
         if os.path.isfile(model_path) and not args.test:
