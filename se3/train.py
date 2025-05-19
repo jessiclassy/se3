@@ -220,6 +220,10 @@ if __name__ == "__main__":
     rouge = load_metric("rouge")
 
     data_dir = "data/"
+    
+    if not os.path.exists("predictions/"):
+        os.makedirs("predictions/", exist_ok=True)
+
     predictions_path = "predictions/" + model_name + "_" + args.dataset + "_" + str(max_input_length) + "_" + \
                        str(max_output_length) + "_" + str(args.epochs) + "_epochs_" + args.prev_loss + "_" + \
                        str(args.is_extractive)
@@ -227,6 +231,7 @@ if __name__ == "__main__":
     model_path = model_dir + str(max_input_length) + "_" + str(max_output_length) + "_" + str(args.epochs) + \
                  "_epochs_" + args.prev_loss + "_" + str(args.is_extractive)
 
+    
     if args.is_paragraph:
         predictions_path += "_paragraph"
         model_path += "_paragraph"
