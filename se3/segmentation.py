@@ -352,7 +352,7 @@ if __name__ == "__main__":
         dataset_chunked, dataset_chunked_idx = \
             dataset_segmentation(dataset_only, sentence_bert_model, word_tokenizer, sent_tokenizer, scorer_rouge,
                                  min_input_length, max_input_length, max_output_length, device,
-                                 file_chunked_path, file_chunked_idx_path, args.no_save, is_extractive, is_paragraph)
+                                 file_chunked_path, file_chunked_idx_path, args.no_save, is_extractive, is_paragraph, is_max)
     else:
         train_file_path = os.path.join(data_dir, args.dataset + "_training_set")
         test_file_path = os.path.join(data_dir, args.dataset + "_test_set")
