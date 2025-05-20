@@ -10,4 +10,4 @@ no_save=False # True if you do not want to save results (for toy experiments)
 seed=1234
 toy=0 # i > 0 to process just i documents
 
-/home2/$USER/miniconda3/envs/se3-env/bin/python se3/segmentation.py
+/home2/$USER/miniconda3/envs/se3-env/bin/python se3/segmentation.py $@
