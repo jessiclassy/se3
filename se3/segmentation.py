@@ -349,10 +349,11 @@ if __name__ == "__main__":
     data_dir = "data/"
 
     if args.dataset_only != "":
-        file_path = data_dir + args.dataset_only.split(".")[0]
-        file_chunked_path = os.path.join(data_dir, name_tok + "_" + args.dataset_only + "_chunked_" +
+        file_path = data_dir + args.dataset_only
+        dataset_name = args.dataset_only.split(".")[0]
+        file_chunked_path = os.path.join(data_dir, name_tok + "_" + dataset_name + "_chunked_" +
                                          str(max_input_length) + "_" + str(max_output_length))
-        file_chunked_idx_path = os.path.join(data_dir + name_tok + "_" + args.dataset_only + "_chunked_idx_" +
+        file_chunked_idx_path = os.path.join(data_dir + name_tok + "_" + dataset_name + "_chunked_idx_" +
                                              str(max_input_length) + "_" + str(max_output_length))
         dataset_only = pd.read_csv(file_path)
         dataset_chunked, dataset_chunked_idx = \
