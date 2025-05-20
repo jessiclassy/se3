@@ -31,9 +31,12 @@ def self_segmentation(doc, s_bert_model, word_tok, sent_tok, dev, min_len, max_l
     doc = str(doc).lower()
     sentences = sent_tok.segment(doc)
     dictionary = None
-    if len(word_tok(doc)["input_ids"]) < max_len:
+
+    total_token_length = len(word_tok(doc)["input_ids"])
+    if total_token_length < max_len:
         chunks.append(sentences)
     else:
+        print("Document needs to be segmented")
         sent_embeddings = s_bert_model.encode(sentences, convert_to_tensor=True, device=dev)
         dictionary = dict(zip(sentences, sent_embeddings))
         count = 0
@@ -42,6 +45,8 @@ def self_segmentation(doc, s_bert_model, word_tok, sent_tok, dev, min_len, max_l
         while count < len(sentences) - 1:
             curr_sent = sentences[count]
             curr_sent_len = len(word_tok(curr_sent)["input_ids"])
+            if curr_sent_len > max_len:
+                print("Current sentence is too long")
             if curr_chunk_len < min_len:
                 if (curr_chunk_len + curr_sent_len) > max_len:
                     if curr_chunk_len == 0:
@@ -339,14 +344,15 @@ if __name__ == "__main__":
     is_extractive = args.is_extractive
     is_paragraph = args.is_paragraph
     is_max = args.is_max
+    name_tok = args.checkpoint.split("/")[1].split("-")[0]
 
     data_dir = "data/"
 
     if args.dataset_only != "":
         file_path = data_dir + args.dataset_only
-        file_chunked_path = os.path.join(data_dir, args.checkpoint + "_" + args.dataset_only + "_chunked_" +
+        file_chunked_path = os.path.join(data_dir, name_tok + "_" + args.dataset_only + "_chunked_" +
                                          str(max_input_length) + "_" + str(max_output_length))
-        file_chunked_idx_path = os.path.join(data_dir + args.checkpoint + "_" + args.dataset_only + "_chunked_idx_" +
+        file_chunked_idx_path = os.path.join(data_dir + name_tok + "_" + args.dataset_only + "_chunked_idx_" +
                                              str(max_input_length) + "_" + str(max_output_length))
         dataset_only = pd.read_csv(file_path)
         dataset_chunked, dataset_chunked_idx = \
@@ -365,7 +371,7 @@ if __name__ == "__main__":
             loss_used = "triplet" if args.model == "models/metric_learning/legal-bert-base-uncased-triplet" or \
                                      "models/metric_learning/scibert-scivocab-uncased-triplet" else \
                         "contrastive"
-        name_tok = "led" if args.checkpoint == "allenai/led-base-16384" else "bart"
+        
 
         train_file_chunked_path = os.path.join(data_dir, name_tok + "_" + args.dataset + "_training_set_chunked_"
                                                + str(min_input_length) + "_" + str(max_input_length) + "_" +
