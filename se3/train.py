@@ -207,7 +207,7 @@ if __name__ == "__main__":
     max_input_length = args.max_input_len
     max_output_length = args.max_output_len
 
-    model_name = "led" if args.checkpoint == "allenai/led-base-16384" else "bart"
+    model_name = args.checkpoint.split("/")[1].split("-")[0]
 
     model = AutoModelForSeq2SeqLM.from_pretrained(args.checkpoint).to(device)
     model.config.num_beams = 2
